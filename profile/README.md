@@ -1,6 +1,6 @@
 # OpenCustody
 
-![OpenCustody Logo](OpenCustody%20Trust%20Model.png)
+![OpenCustody Logo](https://github.com/opencustodynet/.github/blob/13002c538bc7b6ddd46a1f29795dd2e326e4cb55/profile/OpenCustody%20Trust%20Model.png)
 
 <!--
 
