@@ -1,4 +1,6 @@
-## Hi there 👋
+# OpenCustody
+
+![OpenCustody Logo](OpenCustody%20Trust%20Model.png)
 
 <!--
 
