@@ -19,7 +19,7 @@ OpenCustody also employs a concept known as the “approval module,” which is 
 
 OpenCustody’s trust model is designed to minimize trust outside of the HSM. Only the HSM and the approval module are trusted, while other components like middle programs, clients, servers, and networks are considered untrusted. This model ensures that key materials reside inside the HSM and never leave in plain form. This approach contrasts with the current trust models used by many exchanges, where key materials are stored on servers and clouds.
 
-![OpenCustody Logo](https://github.com/opencustodynet/.github/blob/fc262e9ff8f78ba7e07d1e1f228a98639f6a883d/profile/OpenCustody_Trust_Model.png)
+![OpenCustody Logo](https://raw.githubusercontent.com/opencustodynet/.github/main/profile/OpenCustody_Trust_Model.png)
 
 Some custodial service providers use Intel SGX on servers and clouds for key material computation, but SGX, designed as an Intel extension for its processors for Trusted Execution Environments (TEE), has known vulnerabilities and is not suited for securing millions or billions of dollars. In contrast, OpenCustody uses HSMs, which are specifically designed for secure cryptographic operations and large-scale security.
 
