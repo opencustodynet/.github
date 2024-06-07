@@ -36,12 +36,12 @@ These are supported Luna HSM models:
 | Luna PCIe HSM S700| Embedded HSM PED-Authentication with 4 MB key space          | ECC P256: 2,000 tps  |
 | Luna PCIe HSM S750| Embedded HSM PED-Authentication with 32 MB key space         | ECC P256: 10,000 tps |
 | Luna PCIe HSM S790| Embedded HSM PED-Authentication with 64 MB key space         | ECC P256: 22,000 tps |
-| Luna Network HSM A700| Embedded HSM Password-Authentication with 4 MB key space  | ECC P256: 2,000 tps  |
-| Luna Network HSM A750| Embedded HSM Password-Authentication with 32 MB key space | ECC P256: 10,000 tps |
-| Luna Network HSM A790| Embedded HSM Password-Authentication with 64 MB key space | ECC P256: 22,000 tps |
-| Luna Network HSM S700| Embedded HSM PED-Authentication with 4 MB key space       | ECC P256: 2,000 tps  |
-| Luna Network HSM S750| Embedded HSM PED-Authentication with 32 MB key space      | ECC P256: 10,000 tps |
-| Luna Network HSM S790| Embedded HSM PED-Authentication with 64 MB key space      | ECC P256: 22,000 tps |
+| Luna Network HSM A700| Network HSM Password-Authentication with 4 MB key space  | ECC P256: 2,000 tps  |
+| Luna Network HSM A750| Network HSM Password-Authentication with 32 MB key space | ECC P256: 10,000 tps |
+| Luna Network HSM A790| Network HSM Password-Authentication with 64 MB key space | ECC P256: 22,000 tps |
+| Luna Network HSM S700| Network HSM PED-Authentication with 4 MB key space       | ECC P256: 2,000 tps  |
+| Luna Network HSM S750| Network HSM PED-Authentication with 32 MB key space      | ECC P256: 10,000 tps |
+| Luna Network HSM S790| Network HSM PED-Authentication with 64 MB key space      | ECC P256: 22,000 tps |
 
 ## How to Contribute
 
