@@ -55,7 +55,8 @@ $ git checkout https://github.com/opencustodynet/opencustody-vault.git -b name_f
 The most important part to contribute is adding more assets to `opencustody-vault`. 👩‍💻
 
 ## License
-OpenCustody is licensed under [GPL-3.0 License](https://github.com/opencustodynet/opencustody-vault/blob/main/LICENSE), and you can use it to provide Software-as-a-Service like for an exchange. However, for support and additional information, please contact _hossein[at]cyrussec[dot]com_.
+
+OpenCustody is licensed under the [GPL-3.0 License](https://github.com/opencustodynet/opencustody-vault/blob/main/LICENSE), permitting commercial use for providing Software-as-a-Service (SaaS), such as for an exchange. For consulting, support, or additional information, please contact _hossein[at]cyrussec[dot]com_.
 
 <!--
 
