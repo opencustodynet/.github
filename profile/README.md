@@ -19,7 +19,7 @@ OpenCustody primarily uses Rust due to its security-by-design approach, which he
 
 OpenCustody’s trust model is designed to minimize trust outside of the HSM. Only the HSM and the approval module are trusted, while other components like middle programs, clients, servers, and networks are considered untrusted. This model ensures that key materials reside inside the HSM and never leave in plain form. This approach contrasts with the current trust models used by many exchanges, where key materials are stored on servers and clouds.
 
-![OpenCustody Logo](https://raw.githubusercontent.com/opencustodynet/.github/main/profile/OpenCustody_Trust_Model.png)
+![OpenCustody Trust Model](https://raw.githubusercontent.com/opencustodynet/.github/main/profile/OpenCustody_Trust_Model.png)
 
 Some custodial service providers use Intel SGX on servers and clouds for key material computation, but SGX, designed as an Intel extension for its processors for Trusted Execution Environments (TEE), has known vulnerabilities and is not suited for securing millions or billions of dollars. In contrast, OpenCustody uses HSMs, which are specifically designed for secure cryptographic operations and large-scale security.
 
@@ -43,28 +43,40 @@ These are supported Luna HSM models:
 | Luna Network HSM S750| Network HSM PED-Authentication with 32 MB key space      | ECC P256: 10,000 tps |
 | Luna Network HSM S790| Network HSM PED-Authentication with 64 MB key space      | ECC P256: 22,000 tps |
 
+## Supported Coins
+
+These are top coins that on the radar to support. Other coins will be added later.
+
+| Coin | Status      |
+|------|-------------|
+| BTC  | In progress |
+| ETH  | In progress |
+| SOL  | Not started |
+
+## Roadmap
+
+Here is the overal roadmap until end of 2024.
+
+| Timeline | Milestone                                                                        |
+|----------|----------------------------------------------------------------------------------|
+| Q2 2024  | Design vault protocol and API                                                    |
+| Q3 2024  | Add sign/derive module (RustCrypto for ECDSA and EDDSA, BIP-32, SLIP-10)         |
+| Q3 2024  | Support BTC at vault                                                             |
+| Q3 2024  | Create OpenCustody Web app (for BTC with pem file)                               |
+| Q4 2024  | Support ETH                                                                      |
+| Q4 2024  | Create OpenCustody Mobile app (for BTC/ETH with smartphone's Secure Element)     |
+
 ## How to Contribute
 
 1. Clone a repo like `opencustody-vault` and create a new branch:
 ```bash
-$ git checkout https://github.com/opencustodynet/opencustody-vault.git -b name_for_new_branch
+git checkout https://github.com/opencustodynet/opencustody-vault.git -b name_for_new_branch
 ```
 2. Make changes and test
 3. Submit Pull Request with comprehensive description of changes
 
-The most important part to contribute is adding more assets to `opencustody-vault`. 👩‍💻
+The most important part to contribute is adding more coins to `opencustody-vault`. 👩‍💻
 
 ## License
 
 OpenCustody is licensed under the [GPL-3.0 License](https://github.com/opencustodynet/opencustody-vault/blob/main/LICENSE), permitting commercial use for providing Software-as-a-Service (SaaS), such as for an exchange. For consulting, support, or additional information, please contact _hossein[at]cyrussec[dot]com_.
-
-<!--
-
-**Here are some ideas to get you started:**
-
-🙋‍♀️ A short introduction - what is your organization all about?
-🌈 Contribution guidelines - how can the community get involved?
-👩‍💻 Useful resources - where can the community find your docs? Is there anything else the community should know?
-🍿 Fun facts - what does your team eat for breakfast?
-🧙 Remember, you can do mighty things with the power of [Markdown](https://docs.github.com/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
--->
