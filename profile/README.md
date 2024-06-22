@@ -31,22 +31,6 @@ Conventional Custodies vs. OpenCustody:
 | Address Generation | Cloud or Server                      | HSM         |
 | Key Backup         | Cloud, Server, or offline device     | HSM         |
 
-## Why not SGX?
-
-Some custodial service providers use Intel SGX on servers and cloud environments for key material computation. However, SGX, designed by Intel as an extension for its processors to create Trusted Execution Environments (TEEs), has known limitations and vulnerabilities (e.g. [sgx.fail](https://sgx.fail)), making it unsuitable for securing assets worth millions or billions of dollars. In contrast, OpenCustody employs Hardware Security Modules (HSMs), which are specifically engineered for secure cryptographic operations and large-scale security.
-
-SGX lacks security certifications such as NIST FIPS 140 and Common Criteria (CC) EAL, which are required by many regulatory regions. HSMs, on the other hand, possess these essential certifications. 
-
-When an SGX enclave loads, it computes a hash of the enclave code along with system information and memory page maps, setting specific registers (MRENCALVE and MRSIGNER). The sealing keys are derived from these registers, making the entire SGX key set dependent on the CPU registers. For key generation, SGX relies on the CPU's random number generator, which may not be sufficient to protect assets worth millions of dollars. In contrast, HSMs provide tamper-resistant secure storage for keys on a completely separate secure computing device. HSMs are not merely secure computing emulations on a CPU; they are genuine, standalone cryptographic hardware. Additionally, HSMs offer a True Random Number Generator (TRNG) for key generation.
-
-SGX protects server programs by separating trusted and untrusted environments at the CPU level. However, numerous attacks have exploited vulnerabilities in the CPU and operating system to access trusted memory from the untrusted environment. Since SGX enclave code runs on the same machine as untrusted programs, any OS or CPU vulnerability can lead to unrestricted access to SGX.
-
-Conversely, HSMs are dedicated devices solely for cryptographic tasks, extensively tested over many years in payment systems, banking, network security, and the defense industry. While Intel's focus is on manufacturing CPUs, HSMs are specifically designed for securing enterprise systems.
-
-## Why not MPC?
-
-TBD
-
 ## Supported HSMs
 
 OpenCustody can technically support any HSM that provides the required cryptographic primitives (e.g., ECDSA and EDDSA) since it employs the PKCS#11 interface. For development and testing, OpenCustody supports SoftHSM and officially supports the [Thales Luna HSM](https://cpl.thalesgroup.com/encryption/hardware-security-modules/network-hsms). OpenCustody can be configured to work with an HSM or built as firmware for an HSM, ensuring the highest level of security by performing all key and sensitive operations inside the HSM.
@@ -66,6 +50,24 @@ Supported Luna HSM models:
 | Luna Network HSM S700| Network HSM PED-Authentication with 4 MB key space       | ECC P256: 2,000 tps  |
 | Luna Network HSM S750| Network HSM PED-Authentication with 32 MB key space      | ECC P256: 10,000 tps |
 | Luna Network HSM S790| Network HSM PED-Authentication with 64 MB key space      | ECC P256: 22,000 tps |
+
+## OpenCustody with Intel SGX
+
+Some custodial service providers use Intel SGX on servers and cloud environments for key material computation. However, SGX, designed by Intel as an extension for its processors to create Trusted Execution Environments (TEEs), has known limitations and vulnerabilities (e.g. [sgx.fail](https://sgx.fail)), making it unsuitable for securing assets worth millions or billions of dollars. In contrast, OpenCustody employs Hardware Security Modules (HSMs), which are specifically engineered for secure cryptographic operations and large-scale security.
+
+SGX lacks security certifications such as NIST FIPS 140 and Common Criteria (CC) EAL, which are required by many regulatory regions. HSMs, on the other hand, possess these essential certifications. 
+
+When an SGX enclave loads, it computes a hash of the enclave code along with system information and memory page maps, setting specific registers (MRENCALVE and MRSIGNER). The sealing keys are derived from these registers, making the entire SGX key set dependent on the CPU registers. For key generation, SGX relies on the CPU's random number generator, which may not be sufficient to protect assets worth millions of dollars. In contrast, HSMs provide tamper-resistant secure storage for keys on a completely separate secure computing device. HSMs are not merely secure computing emulations on a CPU; they are genuine, standalone cryptographic hardware. Additionally, HSMs offer a True Random Number Generator (TRNG) for key generation.
+
+SGX protects server programs by separating trusted and untrusted environments at the CPU level. However, numerous attacks have exploited vulnerabilities in the CPU and operating system to access trusted memory from the untrusted environment. Since SGX enclave code runs on the same machine as untrusted programs, any OS or CPU vulnerability can lead to unrestricted access to SGX.
+
+Conversely, HSMs are dedicated devices solely for cryptographic tasks, extensively tested over many years in payment systems, banking, network security, and the defense industry. While Intel's focus is on manufacturing CPUs, HSMs are specifically designed for securing enterprise systems.
+
+Although it is not recommended to use SGX instead of HSM for crypto custody, OpenCustody can still be deployed using HSM simulation on SGX via the Intel [crypto-api-toolkit](https://github.com/intel/crypto-api-toolkit). In this configuration, SGX provides a PKCS#11 API, allowing OpenCustody to function as if it were utilizing an HSM.
+
+## Why not MPC?
+
+TBD
 
 ## Supported Curves
 
