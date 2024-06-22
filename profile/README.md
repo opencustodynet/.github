@@ -11,23 +11,45 @@ These custodial services typically use closed-source software, which means users
 OpenCustody is a secure open-source custody solution designed for exchanges, crypto banks, and any crypto project requiring custody. It leverages Hardware Security Modules (HSM), dedicated cryptographic hardware devices well-established in securing digital and online banking, payment networks (like VISA and MasterCard), network security (PKI and TLS/SSL), and government and military applications. HSMs feature True Random Number Generators (TRNG), secure tamper-resistant key storage, and cryptographic engines. They often hold security certifications like FIPS 140 and Common Criteria.
 In OpenCustody, HSMs are central to generating keys, signing transactions, and other secure operations. Keys are generated inside the HSM using TRNG and never leave the HSM in plain form. Even backup procedures are encrypted end-to-end between HSMs.
 
-OpenCustody also employs a concept known as the “approval module,” which is used to get user approval on transactions or actions, such as transferring funds. It displays messages received from the HSM to the user, who then confirms the action. The approval module can be a web app, mobile app, or hardware wallet, with the hardware wallet being the most secure option.
+OpenCustody introduces the innovative concept of “Authorized Custody,” which requires user approval for transaction authorization. The transaction details are presented to the user, who then confirms the action via a web app or mobile app and signs it with an authorization private key on an authorization module. This module can be a PassKey device such as a Yubikey, Android phone, iPhone, or Microsoft laptop.
+
+![Authorized_Custody](https://github.com/opencustodynet/.github/blob/main/profile/Authorized_Custody.png)
 
 OpenCustody primarily uses Rust due to its security-by-design approach, which helps prevent buffer overflows and other memory-related bugs. Rust was chosen as the ideal language for developing such a secure system. However, many embedded systems, including Hardware Security Modules (HSMs), only support C/C++. To bridge this gap, OpenCustody utilizes the HSM's C SDK within Rust. The Rust code is compiled into a static library, which is then linked to a C library. This approach, employed in `opencustody-vault`, allows for the development of HSM firmware code in Rust 👌, leveraging the language's robust security features.
 
 ## Trust Model
 
-OpenCustody’s trust model is designed to minimize trust outside of the HSM. Only the HSM and the approval module are trusted, while other components like middle programs, clients, servers, and networks are considered untrusted. This model ensures that key materials reside inside the HSM and never leave in plain form. This approach contrasts with the current trust models used by many exchanges, where key materials are stored on servers and clouds.
+OpenCustody’s trust model is designed to minimize trust outside of the HSM. Only HSM is trusted, while other components like middle programs, clients, servers, and networks are considered untrusted. This model ensures that key materials reside inside the HSM and never leave in plain form. This approach contrasts with the current trust models used by many exchanges, where key materials are stored on servers and clouds. 
 
-![OpenCustody Trust Model](https://raw.githubusercontent.com/opencustodynet/.github/main/profile/OpenCustody_Trust_Model.png)
+Conventional Custodies vs. OpenCustody:
+| Security Operation | Conventional Custody                 | OpenCustody |
+|--------------------|--------------------------------------|-------------|
+| Key Generation     | Cloud, Server, or offline device     | HSM         |
+| Key Storage        | Cloud or Server                      | HSM         |
+| Key Derivation     | Cloud or Server                      | HSM         |
+| Signing            | Cloud or Server                      | HSM         |
+| Address Generation | Cloud or Server                      | HSM         |
+| Key Backup         | Cloud, Server, or offline device     | HSM         |
 
-Some custodial service providers use Intel SGX on servers and clouds for key material computation, but SGX, designed as an Intel extension for its processors for Trusted Execution Environments (TEE), has known vulnerabilities and is not suited for securing millions or billions of dollars. In contrast, OpenCustody uses HSMs, which are specifically designed for secure cryptographic operations and large-scale security.
+## Why not SGX?
+
+Some custodial service providers use Intel SGX on servers and cloud environments for key material computation. However, SGX, designed by Intel as an extension for its processors to create Trusted Execution Environments (TEEs), has known limitations and vulnerabilities, making it unsuitable for securing assets worth millions or billions of dollars. In contrast, OpenCustody employs Hardware Security Modules (HSMs), which are specifically engineered for secure cryptographic operations and large-scale security.
+
+SGX lacks security certifications such as FIPS 140 and Common Criteria (CC) EAL, which are required by many regulatory regions. HSMs, on the other hand, possess these essential certifications. When an SGX enclave loads, it computes a hash of the enclave code along with system information and memory page maps, setting specific registers (MRENCALVE and MRSIGNER). The sealing keys are derived from these registers, making the entire SGX key set dependent on the CPU registers. In contrast, HSMs provide tamper-resistant secure storage for keys, evaluated by security labs to meet FIPS 140 certification standards.
+
+SGX attempts to provide protection by separating trusted and untrusted environments at the CPU level. However, numerous attacks have exploited vulnerabilities in the CPU and operating system to access trusted memory from the untrusted environment. Since SGX enclave code runs on the same machine as untrusted programs, any OS or CPU vulnerability can lead to unrestricted access to SGX.
+
+Conversely, HSMs are dedicated devices solely for cryptographic tasks, tested extensively over many years in payment systems, banking, network security, and defense industries. While Intel's focus is on manufacturing CPUs, HSMs are specifically designed for securing enterprise systems.
+
+## Why not MPC?
+
+TBD
 
 ## Supported HSMs
 
 OpenCustody can technically support any HSM that provides the required cryptographic primitives (e.g., ECDSA and EDDSA) since it employs the PKCS#11 interface. For development and testing, OpenCustody supports SoftHSM and officially supports the [Thales Luna HSM](https://cpl.thalesgroup.com/encryption/hardware-security-modules/network-hsms). OpenCustody can be configured to work with an HSM or built as firmware for an HSM, ensuring the highest level of security by performing all key and sensitive operations inside the HSM.
 
-These are supported Luna HSM models:
+Supported Luna HSM models:
 | HSM                 | Description                                                | Performance          |
 |---------------------|------------------------------------------------------------|----------------------|
 | Luna PCIe HSM A700| Embedded HSM Password-Authentication with 4 MB key space     | ECC P256: 2,000 tps  |
@@ -42,6 +64,13 @@ These are supported Luna HSM models:
 | Luna Network HSM S700| Network HSM PED-Authentication with 4 MB key space       | ECC P256: 2,000 tps  |
 | Luna Network HSM S750| Network HSM PED-Authentication with 32 MB key space      | ECC P256: 10,000 tps |
 | Luna Network HSM S790| Network HSM PED-Authentication with 64 MB key space      | ECC P256: 22,000 tps |
+
+## Supported Curves
+
+| Curve     | Status      |
+|-----------|-------------|
+| secp256k1 | Supported   |
+| ed25519   | In progress |
 
 ## Supported Coins
 
@@ -59,12 +88,11 @@ Here is the overal roadmap until end of 2024.
 
 | Timeline | Milestone                                                                        |
 |----------|----------------------------------------------------------------------------------|
-| Q2 2024  | Design vault protocol and API                                                    |
+| Q2 2024  | Design vault protocol, API, and web app                                          |
 | Q3 2024  | Add sign/derive module (RustCrypto for ECDSA and EDDSA, BIP-32, SLIP-10)         |
 | Q3 2024  | Support BTC at vault                                                             |
-| Q3 2024  | Create OpenCustody Web app (for BTC with pem file)                               |
+| Q3 2024  | Create OpenCustody web app (for BTC, testnet, no HD)                             |
 | Q4 2024  | Support ETH                                                                      |
-| Q4 2024  | Create OpenCustody Mobile app (for BTC/ETH with smartphone's Secure Element)     |
 
 ## How to Contribute
 
